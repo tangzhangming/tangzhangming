@@ -1,16 +1,35 @@
 ### Hi there 👋
 
-<!--
-**tangzhangming/tangzhangming** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+情话写了多少
 
-Here are some ideas to get you started:
+你都是抿着嘴笑
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+说老娘才不吃你那套
+
+长发未干
+
+眼里有浪
+
+我不写天上的月亮
+
+只爱尘世的姑娘
+
+用三寸舌头
+
+量你口中柔长
+
+对着腿间湿漉的星光
+
+许下一个愿望
+
+跟我结婚吧 姑娘
+
+在有我俩的一间房
+
+东风起 麦儿黄
+
+给你吃我做的蛋炒饭
+
+听你骂
+
+"孩子没睡呢 臭流氓"
