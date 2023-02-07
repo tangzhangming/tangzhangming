@@ -7,10 +7,8 @@ Golang生态中最常用的两个Redis client分别是
 这两个Redis客户端的区别是go-redis自带连接池，可以复用连接; 
 而redigo每次使用一个新的redis连接，使用完成后需要手动关闭;
 因为redigo发展更早，我们在B站泄露的源码中可以看到B站使用的是redigo，不过新项目建议使用go-redis。
-以下内容针对 [go-redis](https://github.com/redis/go-redis)。
+以下内容针对 [go-redis](https://github.com/redis/go-redis)，详细文档请查阅 [go-redis官网文档](https://redis.uptrace.dev/guide/go-redis.html)
 
-### 一些go-redis的操作
-详细文档请查阅 [go-redis官网文档](https://redis.uptrace.dev/guide/go-redis.html)
 
 ### 执行lua脚本例子
 ``` go
@@ -36,7 +34,7 @@ func (r redis_cache) Add(key string, val string, seconds uint) bool {
 比如默认1号库，请求A通过select命令选择了2号库，请求B获取到请求A相同的redis连接时，默认操作的将会是2号库，这个问题在复用连接的情况下普遍存在，比如PHP生态中的swoole和webman。
 
 - 解决方案1，每个库设定一个连接池 (推荐)。
-- 解决方案2，通过管道一次提交多个命令，保护切换库、业务操作、切换回默认库。
+- 解决方案2，通过管道一次提交多个命令，包含切换库、业务操作、切换回默认库。
 
 ```go
 //解决方案2实例
@@ -48,12 +46,12 @@ _, _ = pipe.Get("redis_key").Result() //执行业务
 pipe.Do("select", 1)        //返回默认库
 cmders, err := pipe.Exec()  //将上面的三条redis命名通过管道提交 一次性执行
 
-//如果你的以上命令中保护了返回结果，通过如下方式获取
+//如果你的以上命令中包含了返回结果，通过如下方式获取
 strMap := redis.GetCmdResult(cmders)
 did, _ = strMap[1].(string)
 ```
 
-### 如果管理多个Redis连接
+### 如何管理多个Redis连接
 ```go
 // project/pkg/redis 简单封装调用
 package redis
