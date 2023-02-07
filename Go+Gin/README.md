@@ -1,12 +1,14 @@
 ### Hi there 👋
 
-由于Gin文档过于简陋，文档组织和排版不利于阅读，并且许多Gin内置方法没有在Gin文档中写出，使用Gin时需要自己查看Gin源码，所以特意按照Laravel、thinkphp之类的HTTP web框架的文档格式重新组织归纳一遍，方便phper快速上手
+由于Gin文档过于简陋，按PHP框架文档习惯整理的GO+Gin文档
 
 
-## 文档目录
+## 基础功能
+- [请求](./请求.md)
+- [响应](./响应.md)
+- [中间件](./中间件.md)
+- [gin.Context](./gin.Context.md)
+- [gin.Engine](./gin.Engine.md)
 
-	[请求](./请求.md)
-	[响应](./响应.md)
-	[中间件](./中间件.md)
-	[gin.Context](./gin.Context.md)
-	[gin.Engine](./gin.Engine.md)
+## 数据库
+- [Redis](./Redis.md)
