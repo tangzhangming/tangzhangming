@@ -1,4 +1,4 @@
-### Golang标准库strings
+### Golang 标准库 strings
 [官方文档](https://golang.google.cn/pkg/strings/) 
 
 
