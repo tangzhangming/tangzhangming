@@ -1,4 +1,5 @@
 ### Golang标准库strings
+[官方文档](https://golang.google.cn/pkg/strings/) 
 
 
 ### 常用方法
@@ -7,7 +8,7 @@
 | Contains(s, substr string) | bool | 子串 substr 在 s 中，返回 true  |
 | Count(s, sep string) | int |  子串出现次数 |
 | Split(s, sep string) | []string | 按sep分割 类似php的explode |
-| Join(a []string, sep string) | string | 字符串数组聚合 类似php的implode |
+| [Join(a []string, sep string)](https://golang.google.cn/pkg/strings/#Join)  | string | 字符串数组聚合 类似php的implode |
 | HasPrefix(s, prefix string) | bool | s 中是否以 prefix 开始 |
 | HasSuffix(s, suffix string) | bool | s 中是否以 suffix 结尾 |
 | Index(s, sep string) | int | 在 s 中查找 sep 的第一次出现，返回第一次出现的索引 |
@@ -19,6 +20,7 @@
 | Trim(s string, cutset string) | string | 将 s 左侧和右侧中匹配 cutset 中的任一字符的字符去掉 |
 | TrimPrefix(s string, cutset string) | string | php的ltrim相同 |
 | TrimSuffix(s string, cutset string) | string | php的rtrim相同 |
+
 
 
 ### 方法
@@ -49,7 +51,7 @@
 | IndexAny(s, chars string) | int | chars 中任何一个 Unicode 代码点在 s 中首次出现的位置 |
 | IndexFunc(s string, f func(rune) bool) | int | 查找字符 c 在 s 中第一次出现的位置，其中 c 满足 f(c) 返回 true |
 | IndexRune(s string, r rune) | int | Unicode 代码点 r 在 s 中第一次出现的位置 |
-| **字符或子串在字符串中最后出现的位置** ==: |
+| **字符或子串在字符串中最后出现的位置** |
 | LastIndex(s, sep string) | int | 在 s 中查找 sep 的最后一次出现，返回最后一次出现的索引 |
 | LastIndexByte(s string, c byte) | int |  |
 | LastIndexAny(s, chars string) | int |  |
