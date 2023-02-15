@@ -6,7 +6,7 @@
 - [GO模板语法总结](https://www.cnblogs.com/jkko123/p/7018406.html)
 - [GO常用的正则查找与替换](https://www.cnblogs.com/jkko123/p/8329515.html)
 
-##阿里云GoModule
+## 阿里云GoModule
 ```shell
 export GOPROXY=https://mirrors.aliyun.com/goproxy/
 ```
