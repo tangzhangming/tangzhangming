@@ -1,16 +1,23 @@
 ### Golang
+[标准库](./standard/README.md)
+
 [PHP常用的函数对应的Go方法](./php_functions.md)
+[GO简单的实现内网穿透](https://www.cnblogs.com/jkko123/p/7218685.html)
+[GO模板语法总结](https://www.cnblogs.com/jkko123/p/7018406.html)
+[GO常用的正则查找与替换](https://www.cnblogs.com/jkko123/p/8329515.html)
 
+##
+[阿里云GoModule](https://mirrors.aliyun.com/goproxy/)
+```shell
+export GOPROXY=https://mirrors.aliyun.com/goproxy/
+```
 
-### 标准库
-| Name | Synopsis |
-| --- | --- |
-| [fmt](./std_fmt.md) | 包fmt使用类似于C的printf和scanf的函数实现格式化的I/O |
-| [time](./std_time.md) | |
-| [strings](./std_strings.md) | 实现操作UTF-8编码字符串的简单函数 |
-| [os](./std_os.md) | 为操作系统功能提供了一个独立于平台的接口 |
-| [strconv](./std_strconv.md) | 实现与基本数据类型的字符串表示之间的转换 |
-| [net](./std_net.md) | |
-| --[http](./std_net_http.md) | |
-| --[netip]() | ip地址操作 |
-| --[url]() | 解析 URL 并实现查询转义 |
+### 第三方包
+[GORM](https://github.com/go-gorm/gorm)
+[GJSON](https://github.com/tidwall/gjson)
+[sqlx (原始SQL数据库操作)](https://github.com/jmoiron/sqlx)
+[Carbon (时间日期处理包)](https://github.com/golang-module/carbon)
+[fyne-io/fyne (可以写桌面应用)](https://github.com/fyne-io/fyne)
+[uber-go/zap (日志处理)](https://github.com/uber-go/zap)
+[resty (http客户端)](https://github.com/go-resty/resty)
+[go-playground/validator (表单验证)](https://github.com/go-playground/validator)
