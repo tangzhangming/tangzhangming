@@ -6,7 +6,7 @@
 - [gin.Context](./gin.Context.md)
 - [gin.Engine](./gin.Engine.md)
 - [Redis](./Redis.md)
-- [Rabbitmq](./rabbitmq.md)
+- [封装Rabbitmq](./rabbitmq.md)
 
 ### 推荐内容
 - [PHP常用的函数对应的Go方法](./php_functions.md)
@@ -20,6 +20,7 @@
 - [GORM](https://github.com/go-gorm/gorm)
 - [GJSON](https://github.com/tidwall/gjson)
 - [sqlx (原始SQL数据库操作)](https://github.com/jmoiron/sqlx)
+- [qiniu/qmgo (MongoDB操作)](https://github.com/qiniu/qmgo)
 - [Carbon (时间日期处理包)](https://github.com/golang-module/carbon)
 - [fyne-io/fyne (可以写桌面应用)](https://github.com/fyne-io/fyne)
 - [uber-go/zap (日志处理)](https://github.com/uber-go/zap)
@@ -30,6 +31,11 @@
 - [golang/oauth2 (OAuth2 Client)](https://github.com/golang/oauth2)
 - [go-pay/gopay (支付开发)](https://github.com/go-pay/gopay)
 - [mozillazg/go-pinyin (汉字转拼音)](https://github.com/mozillazg/go-pinyin)
+- [robfig/cron (定时任务)]( https://github.com/robfig/cron)
+- [qax-os/excelize (操作Excel)](https://github.com/qax-os/excelize)
+- [PowerWeChat (微信开发)](https://powerwechat.artisan-cloud.com/zh/start/)
+- [spf13/viper (配置管理)](https://github.com/spf13/viper)
+
 
 ### Gin套件
 - [gin-contrib/timeout 请求超时处理中间件](https://github.com/gin-contrib/timeout)
