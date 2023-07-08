@@ -6,6 +6,7 @@
 - [gin.Context](./gin.Context.md)
 - [gin.Engine](./gin.Engine.md)
 - [Redis](./Redis.md)
+- [Rabbitmq](./rabbitmq.md)
 
 ### 推荐内容
 - [PHP常用的函数对应的Go方法](./php_functions.md)
