@@ -7,9 +7,9 @@
 
 
 ## 💻 编程相关整理
-- [Golang](./Golang/readme.md)
-- [PHP](./PHP/readme.md)
-- [Redis](./Redis/readme.md)
+- [Golang](./Golang/README.md)
+- [PHP](./PHP/README.md)
+- [Redis](./Redis/README.md)
 
 ## 📝 日记本
 - [写个P](./)
