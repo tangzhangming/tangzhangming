@@ -1,4 +1,4 @@
-### Golang Web 开发
+## Golang Web 开发
 - [标准库整理](./standard/README.md)
 - [请求](./请求.md)
 - [响应](./响应.md)
@@ -31,3 +31,21 @@
 | 微信开发 |  [PowerWeChat](https://powerwechat.artisan-cloud.com/zh/start/) |
 | 配置管理 |  [https://github.com/spf13/viper](https://github.com/spf13/viper) |
 | 硬件信息 |  [shirou/gopsutil](https://github.com/shirou/gopsutil/) |
+
+### Go JSON动态修改字段
+```
+	structVar := 结构体{
+		Code : 200,
+		Data : "a message",
+	}
+
+	//把Data字段改名list
+	m, _ := json.Marshal(structVar)
+	var a interface{}
+	json.Unmarshal(m, &a)
+	b := a.(map[string]interface{})
+	b["list"] = b["data"]
+	delete(b, "data")
+
+	ctx.Json(200, b)
+```
