@@ -14,4 +14,8 @@
 - [Markdown语法解析器](https://github.com/erusev/parsedown)
 - [路由器 FastRoute](https://github.com/nikic/FastRoute)
 - [最强的PHP二维码包](https://github.com/SimpleSoftwareIO/simple-qrcode)
+- [OAuth2服务端|league/oauth2-server](https://github.com/thephpleague/oauth2-server)
+- [OAuth2客户端|league/oauth2-client](https://github.com/thephpleague/oauth2-client)
+- [OAuth2客户端|Laravel专用,较league/oauth2-client方便](https://github.com/laravel/socialite)
+- [OAuth2客户端|PHP通用, 较league/oauth2-client方便](https://github.com/overtrue/socialite)
 
