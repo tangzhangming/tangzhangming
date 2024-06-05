@@ -1,8 +1,95 @@
-## 表单请求(FormRequest)独立验证类完整例子
+## 目录
+[Validator非完全用法汇总](#Validator非完全用法汇总)
+[FormRequest表单请求类例子](#FormRequest表单请求类例子)
+[FormRequest闭包验证器和行内验证器](#FormRequest闭包验证器和行内验证器)
+[FormRequest统一处理错误响应](#FormRequest统一处理错误响应)
+[验证器错误背包用法](#验证器错误背包用法)
+[Precognitive预认知](#Precognitive预认知)
+
+## Validator非完全用法汇总
+```PHP
+    // 包含文档中没有提到的
+    // Illuminate\Support\Facades\Validator
+    // Illuminate\Validation\Validator
+
+    $validator = Validator::make($request->all(), $req->all())->validateWithBag('myBag');
+
+    // 返回验证失败的数据 bool, validated()的反逻辑
+    $validator->invalid();
+
+    // 获取验证成功的数据 bool, invalid()的反逻辑
+    $validator->validated();
+
+    // 确定数据是否通过验证规则 bool, fails()的反逻辑
+    $validator->passes();
+
+    // 确定数据是否没有通过验证规则 bool, passes()的反逻辑
+    $validator->fails();
+
+    // 验证数据 如果有错抛出错误 array
+    // 不想抛出就通过 passes() 和 fails() 自己处理
+    // @throws \Illuminate\Validation\ValidationException
+    $validator->validate();
+
+    // 返回有效的数据 array
+    $validator->valid();
+
+    // 获取失败的验证规则 array
+    $validator->failed();
+
+    // 根据闭包向给定字段添加条件
+    // 非常有用
+    $validator->sometimes($attribute, $rules, callable $callback);
+
+    // 指示验证器在第一个规则失败后停止验证 默认是false
+    // 非常有用
+    $validator->stopOnFirstFailure($stopOnFirstFailure = true);
+
+    // 获取验证器的消息容器 后面两个是messages的马甲 
+    $validator->messages();
+    $validator->errors();
+    $validator->getMessageBag();
+
+    // 获取要验证的数据
+    $validator->attributes(); == getData()
+
+    // 获取给定属性的值
+    // 如果你在写自定义规则，一个字段依赖另一个字段的时候这十分有用
+    $validator->getValue($attribute);
+
+    // 确定给定属性在给定集合中是否有规则
+    $validator->hasRule(string $attribute, string|array $rules);
+
+    // 获取给定属性的规则及其参数
+    $validator->getRule(string $attribute, string|array $rules);
+
+
+    // 将失败的规则和错误消息添加到集合中 void
+    $validator->addFailure(string $attribute, string $rule, array $parameters = []);
+
+    // 注册自定义验证器扩展数组
+    // addExtension('custom_rule', CustomRule::class);
+    $validator->addExtension($rule, $extension)
+    $validator->addImplicitExtension($rule, $extension)//隐式扩展
+    $validator->addDependentExtension($rule, $extension)
+    $validator->addExtensions(array $extensions);
+    $validator->addImplicitExtensions(array $extensions);//隐式扩展
+    $validator->addDependentExtensions(array $extensions);
+
+    // 注册自定义验证器消息替换器
+    $validator->addReplacer($rule, $replacer)
+
+    $validator->setCustomMessages(array $messages)
+    $validator->setAttributeNames(array $attributes)
+
+```
+
+## FormRequest表单请求类例子
 ```PHP
 <?php
 namespace App\Http\Requests;
 
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -11,13 +98,31 @@ class TestRequest extends FormRequest
 {
 
     /**
+     * 验证失败的重定向地址 
+     * 4选一设置即可 权重依顺序 也可重写getRedirectUrl()方法
+     * 默认重定向回来源页 可在failedValidation()里设置禁止重定向
+     */
+    protected $redirect;
+    protected $redirectRoute;
+    protected $redirectAction;
+    protected $redirector;
+
+    /**
+     * 错误背包
+     * 如果你的页面有多个独立的表单 可通过错误背包来区分
+     * @link https://learnku.com/docs/laravel/10.x/validation/14856#named-error-bags
+     * @var string
+     */
+    protected $errorBag = 'default';
+
+
+    /**
      * 表示验证器是否应在第一个规则失败时停止
      * 注意此处是停止所有属性与规则，与停止单个属性的bail规则不同
      * 
      * @var bool
      */
     protected $stopOnFirstFailure = false;
-
 
     /**
      * 确定用户是否有权提出此请求
@@ -37,6 +142,11 @@ class TestRequest extends FormRequest
         return true;
     }
 
+    // 授权失败处理, 当前类authorize()方法存在且返回 false 时调用此处 可省略
+    protected function failedAuthorization()
+    {
+        throw new \Illuminate\Auth\Access\AuthorizationException;
+    }
 
     /**
      * 要验证的数据，可省略，默认值 request()->all()
@@ -58,20 +168,6 @@ class TestRequest extends FormRequest
         return [
             'title'    => 'required|between:8,50',
             'content'  => 'required|min:100',
-
-            // rule可以是|分割的字符串，也可以是一维数组
-            'website'  => ['required', 'url'],
-
-            // 某些非内置的非通用特殊验证需求，可以在闭包里完成
-            'test' => ['size:5', function($attribute, $value, $fail){
-                if( $value !== '12345' ){
-                    $fail("参数 {$attribute} 不符合要求.");
-                }
-            }]
-
-            // 假设我们为了用户安全，发帖时必须提交密码二次验证
-            // 可以使用闭包完成数据库对比密码，但是我们希望其他参数都验证通过后再验证，节省数据库查询，所以我们在after中进行数据库密码比对
-            'password' => 'required|between:6,20',
         ];
     }
 
@@ -81,8 +177,8 @@ class TestRequest extends FormRequest
     public function attributes()
     {
         return [
-            'title'   => '帖子标题',
-            'content' => '帖子内容',
+            'title'   => '标题',
+            'content' => '内容',
         ];
     }
 
@@ -94,19 +190,11 @@ class TestRequest extends FormRequest
         return [
             'required'         => ':attribute不能为空, 请填写后再提交',
             'title.between'    => '帖子标题长度限制在:min至:max个字之间',
-            'content.min'      => '帖子内容至少需要100个字',
             'password.between' => '密码错误',
         ];
     }
 
-
-    // 授权失败处理, 当前类authorize()方法存在且返回 false 时调用此处 可省略
-    protected function failedAuthorization()
-    {
-        throw new \Illuminate\Auth\Access\AuthorizationException;
-    }
- 
-    // 数据预处理 可省略
+    // 准备验证数据
     protected function prepareForValidation(): void
     {
         $this->merge([
@@ -130,25 +218,6 @@ class TestRequest extends FormRequest
             'website' => $this->website.'?code=123456'
         ]);
     }
-
-    /**
-     * 行内验证器
-     * 也许你在yii2和thinkphp中经常这样用且十分好用, 但是laravel中无法实现，请参考验证器闭包文档代替
-     * 
-     * laravel验证器闭包
-     * @link https://learnku.com/docs/laravel/10.x/validation/14856#bf0dbb
-     *
-     * yii行内验证器     
-     * @link https://www.yiiframework.com/doc/guide/2.0/zh-cn/input-validation#inline-validators
-     * 
-     * tp自定义验证规则  
-     * @link https://doc.thinkphp.cn/v8_0/validator.html
-     */
-    public function validateTitle($attribute, $value, $fail)
-    {
-        return ;
-    }
-
 
     /**
      *  配置验证器实例。
@@ -220,13 +289,121 @@ class TestRequest extends FormRequest
 ```
 
 
-## 验证器错误背包用法 Illuminate\Support\MessageBag
+## FormRequest闭包验证器和行内验证器
+```PHP
+<?php
+
+use Illuminate\Support\Facades\Validator;
+
+class TestRequest extends FormRequest{
+
+    public function rules(): array
+    {
+        return [
+
+            'title' => [
+                'required', 
+                'string',
+                // 闭包验证器写法1 避免rules太臃肿
+                Closure::fromCallable([$this, 'validateTitle'])
+            ]
+
+            // 闭包验证器写法2
+            'content' => ['string', function($attribute, $value, $fail){
+                if( ... ){
+                    $fail("参数 {$attribute} 不符合要求.");
+                }
+            }],
+
+            // 使用自定义验证器phoneNumber， 在prepareForValidation里注册
+            'mobile' => 'required|phoneNumber',
+        ];    
+    }
+
+    protected function prepareForValidation(): void
+    {
+        Validator::extend('phoneNumber', [$this, 'validatePhoneNumber']);
+    }
+
+    /**
+     * 自定义验证器 phoneNumber
+     * 自定义验证器参数比闭包多 可以做过多事情
+     */
+    public function validatePhoneNumber($attribute, $value, $parameters, $validator)
+    {
+        // 可以通过validator取到其他字段值
+        $areaCode = $validator->getValue('area-code');
+
+        if( $areaCode == '1' ){
+            // 美国手机号格式验证
+
+        }elseif( $areaCode == '86' ){
+            // 中国手机号格式验证
+            if(...){
+                $validator->errors()->add($attribute, "{$attribute}不是中国大陆手机号");
+            }
+        }
+
+        return true;
+    }
+
+    // 闭包验证器 没有
+    public function validateTitle($attribute, $value, $fail)
+    {
+        if(...){
+            $fail("参数 {$attribute} 不符合要求.");
+        }
+
+        return true;
+    }
+
+}
+```
+
+## FormRequest统一处理错误响应
+```PHP
+<?php
+namespace App\Exceptions;
+
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
+class Handler extends ExceptionHandler
+{
+    ...
+
+    public function register(): void
+    {
+        // 为表单验证统一处理返回，表单验证错误将由这里兜底处理
+        // 包含没有自定义 failedValidation 的独立验证类和 $request->validate()
+        $this->renderable(function (ValidationException $e, Request $request) {
+            return response()->json([
+                'code'     => 2,
+                'message'  => $e->getMessage(),
+                'error'    => $e->validator->errors(),
+            ], $e->status);
+        });
+
+
+        $this->reportable(function (Throwable $e) {
+            //
+        });
+    }
+}
+
+```
+
+
+## 验证器错误背包用法 
 ```PHP
     $validator = Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
         'body' => 'required',
     ]);
 
+    // Illuminate\Support\MessageBag
     if ($validator->fails()) {
         $errors = $validator->errors();
 
@@ -274,7 +451,7 @@ class HomeController extends Controller{
 4. ```ValidatesWhenResolvedTrait``` 的 ```validateResolved``` 方法调用了 ```MyRequest->fails()```, 失败时调用 ```failedValidation```方法
 3. ```Illuminate\Foundation\Providers\FormRequestServiceProvider``` 中启用了你的 ```MyRequest```
 
-## Precognitive预认知
+## Precognitive预认知 
 浏览器头包含Precognition-Validate-Only时，laravel响应header自动加入Precognition-Success=true
 可以使用 $this->isPrecognitive() 判断
 ```
