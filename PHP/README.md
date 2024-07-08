@@ -31,6 +31,9 @@
 - [依赖注入容器1 PHP-DI/PHP-DI ](https://github.com/PHP-DI/PHP-DI)
 - [依赖注入容器2 thephpleague/container](https://github.com/thephpleague/container)
 - [设备user_agent检测 serbanghita/Mobile-Detect](https://github.com/serbanghita/Mobile-Detect)
+- [ip2region 16K star](https://github.com/lionsoul2014/ip2region)
+- [ip2region 1K star](https://github.com/zoujingli/ip2region)
+- [Url处理包](https://uri.thephpleague.com/)
 
 ### 办公文件处理
 - [dompdf HTML转PDF](https://github.com/dompdf/dompdf)

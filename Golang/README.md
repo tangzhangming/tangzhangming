@@ -23,7 +23,8 @@
 | 表单验证 |   [go-playground/validator](https://github.com/go-playground/validator) |
 | 表单验证 |   [asaskevich/govalidator](https://github.com/asaskevich/govalidator) |
 | 命令行操作  |  [https://github.com/spf13/cobra](https://github.com/spf13/cobra) |
-| http客户端  |  [resty](https://github.com/go-resty/resty) |
+| http客户端resty  |  [resty](https://github.com/go-resty/resty) |
+| http客户端gentleman |  [shirou/gopsutil](https://github.com/h2non/gentleman) |
 | OAuth2 Client  |  [golang/oauth2](https://github.com/golang/oauth2) |
 | OAuth2 Server  |  [go-oauth2/oauth2](https://github.com/go-oauth2/oauth2) |
 | OAuth2 OIDC  |  [dexidp/dex](https://github.com/dexidp/dex) |
