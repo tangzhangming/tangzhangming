@@ -1,0 +1,72 @@
+#Mysql PG redis es minio 5件套
+version: '3.1'
+    
+services:
+  mysql80:
+    image: 'mysql:8.0'
+    container_name: mysql8
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/logs:/var/log/mysql
+      - ./mysql/conf.d:/etc/mysql/conf.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+  
+  mysql57:
+    image: 'mysql:5.7'
+    container_name: mysql57
+    volumes:
+      - ./mysql57/data:/var/lib/mysql
+      - ./mysql57/logs:/var/log/mysql
+      - ./mysql57/conf.d:/etc/mysql/conf.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3357:3306"
+
+  postgres:
+    image: 'postgres:15'
+    container_name: postgres15
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - "5432:5432"
+
+  redis721:
+    image: 'redis:7.2.1'
+    ports:
+      - "6379:6379"
+
+  es:
+    image: 'elasticsearch:8.5.0'
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node     #单节点
+      - xpack.security.enabled=false   #es强制https 关闭
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m #JVM选项
+      - ELASTIC_PASSWORD=changeme      #内置用户密码
+      - KIBANA_PASSWORD=changeme       #内置用户密码
+    ports:
+      - "9200:9200"                    #api
+      - "9300:9300"                    #tcp通信
+    volumes:
+      - ./esdata:/usr/share/elasticsearch/data
+
+  minio:
+    image: 'bitnami/minio:2024.6.13'
+    container_name: minio
+    volumes:
+      - ./data:/data
+    environment:
+      - MINIO_ROOT_USER=tangzhangming
+      - MINIO_ROOT_PASSWORD=12345678   # 密码过短会启动失败
+      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
+      - MINIO_SERVER_URL=http://localhost:9000
+    ports:
+      - "9000:9000" # api端口
+      - "9001:9001" # 操作面板
